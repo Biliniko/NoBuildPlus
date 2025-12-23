@@ -14,6 +14,9 @@ public class HookedPlugins {
     }
 
     public static boolean cancel(Player player) {
+        if (hookedPlugin == null) {
+            return false;
+        }
         boolean result = hookedPlugin.cancel(player);
         if (result) {
             return true;
@@ -22,6 +25,9 @@ public class HookedPlugins {
     }
 
     public static boolean cancel(Block block) {
+        if (hookedPlugin == null) {
+            return false;
+        }
         boolean result = hookedPlugin.cancel(block);
         if (result) {
             return true;
@@ -30,6 +36,9 @@ public class HookedPlugins {
     }
 
     public static boolean cancel(Entity entity) {
+        if (hookedPlugin == null) {
+            return false;
+        }
         boolean result = hookedPlugin.cancel(entity);
         if (result) {
             return true;
@@ -38,6 +47,9 @@ public class HookedPlugins {
     }
 
     public static boolean cancel(Location loc) {
+        if (hookedPlugin == null) {
+            return false;
+        }
         boolean result = hookedPlugin.cancel(loc);
         if (result) {
             return true;

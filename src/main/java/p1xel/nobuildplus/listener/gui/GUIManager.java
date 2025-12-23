@@ -94,6 +94,17 @@ public class GUIManager {
 
                 String flag = flags.get(a-1);
                 Flags f = Flags.matchFlag(flag);
+                if (f == null) {
+                    a++;
+                    if ((a/(i*28))>1) {
+                        break;
+                    }
+                    if (a > flags.size()) {
+                        break;
+                    }
+                    continue;
+                }
+
                 int slot = f.getSlot();
 
                 // Each page
@@ -170,7 +181,10 @@ public class GUIManager {
                             }
                             meta.setLore(lores);
                             item.setItemMeta(meta);
-                            gui.setItem(Flags.matchFlag(flag).getSlot(), item);
+                            Flags matched = Flags.matchFlag(flag);
+                            if (matched != null) {
+                                gui.setItem(matched.getSlot(), item);
+                            }
                             worlds.replace(world+"_page"+i, gui);
                             return;
                         }

@@ -1,10 +1,13 @@
 package p1xel.nobuildplus.api;
 
+import p1xel.nobuildplus.NoBuildPlus;
 import p1xel.nobuildplus.Flags;
 import p1xel.nobuildplus.storage.FlagsManager;
 import p1xel.nobuildplus.storage.Settings;
 import p1xel.nobuildplus.storage.Worlds;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 public class NBPAPI {
@@ -25,6 +28,29 @@ public class NBPAPI {
         return this.version;
     }
 
+    private void saveAndReload() {
+        File flags = new File(NoBuildPlus.getInstance().getDataFolder(), "flags.yml");
+        File settings = new File(NoBuildPlus.getInstance().getDataFolder(), "settings.yml");
+        File worlds = new File(NoBuildPlus.getInstance().getDataFolder(), "worlds.yml");
+
+        try {
+            FlagsManager.yaml.save(flags);
+            Settings.yaml.save(settings);
+            Worlds.yaml.save(worlds);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        FlagsManager.upload(flags);
+        Settings.upload(settings);
+        Worlds.upload(worlds);
+
+        FlagsManager.defaultFlagList();
+        Settings.defaultList();
+        Flags.refreshMap();
+    }
+
     // Add flag to NoBuildPlus (with no type: option)
     public void addFlag(String flag, String item, int slot, boolean def) {
         if (FlagsManager.yaml.get("flags." + flag + ".enable") == null) {
@@ -33,9 +59,8 @@ public class NBPAPI {
             FlagsManager.yaml.set("flags." + flag + ".slot", slot);
             FlagsManager.defaultFlagList();
         }
-        if (Settings.yaml.get("global-settings." + flag) == null) {
-            Settings.yaml.set("global-settings." + flag, def);
-            Settings.defaultList();
+        if (Settings.yaml.get("global-settings.flags." + flag) == null) {
+            Settings.yaml.set("global-settings.flags." + flag, def);
         }
         for (String world : Settings.getEnableWorldList()) {
 
@@ -46,6 +71,8 @@ public class NBPAPI {
             }
 
         }
+
+        saveAndReload();
 
     }
 
@@ -60,9 +87,8 @@ public class NBPAPI {
             FlagsManager.yaml.set("flags." + flag + ".list", list);
             FlagsManager.defaultFlagList();
         }
-        if (Settings.yaml.get("global-settings." + flag) == null) {
-            Settings.yaml.set("global-settings." + flag, def);
-            Settings.defaultList();
+        if (Settings.yaml.get("global-settings.flags." + flag) == null) {
+            Settings.yaml.set("global-settings.flags." + flag, def);
         }
         for (String world : Settings.getEnableWorldList()) {
 
@@ -73,6 +99,8 @@ public class NBPAPI {
             }
 
         }
+
+        saveAndReload();
 
     }
 

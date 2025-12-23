@@ -25,6 +25,23 @@ public class GUIDefaultTemplate extends GUIAbstract implements InventoryHolder {
     private int page;
     private final NamespacedKey menu_id_key = new NamespacedKey("nobuildplus", "menu_id");
 
+    private Material getFlagMaterial(String flagName) {
+        String showItem = FlagsManager.yaml.getString("flags." + flagName + ".show-item");
+        if (showItem == null) {
+            showItem = "PAPER";
+        }
+        Material mat = Material.matchMaterial(showItem);
+        return mat != null ? mat : Material.PAPER;
+    }
+
+    private String getFlagDescription(String flagName) {
+        String key = "flag.description." + flagName;
+        if (Locale.yaml != null && Locale.yaml.isSet(key)) {
+            return Locale.getMessage(key);
+        }
+        return flagName;
+    }
+
     public GUIDefaultTemplate(int page) {
         this.page = page;
         init();
@@ -131,8 +148,11 @@ public class GUIDefaultTemplate extends GUIAbstract implements InventoryHolder {
             }
 
             Flags flag = Flags.matchFlag(f);
-            Material material = Material.valueOf(flag.getShowItem());
-            String flagName = flag.getName();
+            String flagName = flag != null ? flag.getName() : f;
+            Material material = flag != null ? Material.matchMaterial(flag.getShowItem()) : getFlagMaterial(flagName);
+            if (material == null) {
+                material = Material.PAPER;
+            }
             boolean bool = Settings.getDefaultFlag(flagName);
             ItemStack item = new ItemStack(material);
             ItemMeta meta = item.getItemMeta();
@@ -141,7 +161,7 @@ public class GUIDefaultTemplate extends GUIAbstract implements InventoryHolder {
                     .map(line -> ChatColor.translateAlternateColorCodes('&', line))
                     .map(line -> line.replaceAll("%flag%",flagName)
                             .replaceAll("%bool%", Locale.getMessage(String.valueOf(bool)))
-                            .replaceAll("%description%", Locale.getMessage("flag.description." + flagName)))
+                            .replaceAll("%description%", getFlagDescription(flagName)))
                     .collect(Collectors.toList());
             meta.setLore(lore_list);
             PersistentDataContainer container = meta.getPersistentDataContainer();
@@ -178,7 +198,7 @@ public class GUIDefaultTemplate extends GUIAbstract implements InventoryHolder {
                 .map(line -> ChatColor.translateAlternateColorCodes('&', line))
                 .map(line -> line.replaceAll("%flag%",flagName)
                         .replaceAll("%bool%", Locale.getMessage(String.valueOf(bool)))
-                        .replaceAll("%description%", Locale.getMessage("flag.description." + flagName)))
+                        .replaceAll("%description%", getFlagDescription(flagName)))
                 .collect(Collectors.toList());
         meta.setLore(lore_list);
         item.setItemMeta(meta);

@@ -845,4 +845,43 @@ public class NoBuildPlusEntityListener implements Listener {
         e.setCancelled(true);
 
     }
+
+    // Flag: projectile
+    @EventHandler
+    public void onProjectileLaunch(ProjectileLaunchEvent e) {
+        Projectile projectile = e.getEntity();
+        
+        if (HookedPlugins.cancel(projectile)) {
+            return;
+        }
+
+        String world = projectile.getWorld().getName();
+
+        if (!Flags.projectile.isEnabled(world)) {
+            return;
+        }
+
+        // Check if projectile was launched by a player
+        if (projectile.getShooter() instanceof Player) {
+            Player p = (Player) projectile.getShooter();
+            
+            if (p.hasPermission(Worlds.getPermission(world))) {
+                return;
+            }
+
+            if (Flags.projectile.getType().equalsIgnoreCase("all")) {
+                Worlds.sendMessage(p, world);
+                e.setCancelled(true);
+                return;
+            }
+
+            if (Flags.projectile.getType().equalsIgnoreCase("list")) {
+                String projectileType = projectile.getType().toString().toUpperCase();
+                if (Flags.projectile.getList().contains(projectileType)) {
+                    Worlds.sendMessage(p, world);
+                    e.setCancelled(true);
+                }
+            }
+        }
+    }
 }

@@ -61,6 +61,7 @@ public class FlagsManager {
     static List<String> flagList = new ArrayList<>();
 
     public static void defaultFlagList() {
+        flagList.clear();
         flagList.addAll(yaml.getConfigurationSection("flags").getKeys(false));
     }
 

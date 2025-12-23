@@ -221,7 +221,8 @@ gui:
 
 flag:
   description:
-    break: 'Block destroying'
+    break: 'Prevent players from breaking blocks'
+    projectile: 'Prevent players from launching projectiles'
     build: 'Block place'
     use: 'Block using'
     container: 'Using the containers'

@@ -73,7 +73,8 @@ public enum Flags {
     lightning("lightning", true, "LIGHTNING_ROD", 15, null, null),
     tnt_prime("tnt-prime", true, "TNT", 16, null, null),
     pressure_plate("pressure-plate", true, "OAK_PRESSURE_PLATE", 19, "list", Arrays.asList("OAK_PRESSURE_PLATE", "SPRUCE_PRESSURE_PLATE", "BIRCH_PRESSURE_PLATE", "JUNGLE_PRESSURE_PLATE", "ACACIA_PRESSURE_PLATE", "DARK_OAK_PRESSURE_PLATE", "MANGROVE_PRESSURE_PLATE", "CHERRY_PRESSURE_PLATE", "PALE_OAK_PRESSURE_PLATE", "BAMBOO_PRESSURE_PLATE", "CRIMSON_PRESSURE_PLATE", "WARPED_PRESSURE_PLATE", "STONE_PRESSURE_PLATE", "POLISHED_BLACKSTONE_PRESSURE_PLATE", "LIGHT_WEIGHTED_PRESSURE_PLATE", "HEAVY_WEIGHTED_PRESSURE_PLATE", "PRESSURE_PLATE")),
-    fire_spread("fire-spread", true, "FLINT_AND_STEEL", 20, null, null);
+    fire_spread("fire-spread", true, "FLINT_AND_STEEL", 20, null, null),
+    projectile("projectile", true, "ARROW", 21, "all", Arrays.asList("ARROW", "SPECTRAL_ARROW", "SNOWBALL", "EGG", "SPLASH_POTION", "LINGERING_POTION", "ENDER_PEARL", "ENDER_SIGNAL", "FIREWORK", "TRIDENT"));
 
     private final String flag_name;
     private boolean enabled;
@@ -122,7 +123,7 @@ public enum Flags {
             return false;
         }
 
-        if (Worlds.getFlag(world, getName())) {
+        if (!Worlds.getFlag(world, getName())) {
             return false;
         }
 

@@ -305,3 +305,17 @@ flags:
       - PRESSURE_PLATE
   fire-spread:
     enable: true
+  projectile:
+    enable: true
+    type: all
+    list:
+      - ARROW
+      - SPECTRAL_ARROW
+      - SNOWBALL
+      - EGG
+      - SPLASH_POTION
+      - LINGERING_POTION
+      - ENDER_PEARL
+      - ENDER_SIGNAL
+      - FIREWORK
+      - TRIDENT

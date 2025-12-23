@@ -14,7 +14,6 @@ import java.util.List;
 public class TabList implements TabCompleter {
 
     List<String> args0 = new ArrayList<>();
-    List<String> flags = new ArrayList<>();
     List<String> bool = new ArrayList<>(Arrays.asList("true", "false"));
     @Override
     @ParametersAreNonnullByDefault
@@ -25,10 +24,9 @@ public class TabList implements TabCompleter {
             args0.add("setspawn"); args0.add("tp"); args0.add("open"); args0.add("reload");
         }
 
-        if (flags.isEmpty()) {
-            flags.add("list");
-            flags.addAll(FlagsManager.getFlags());
-        }
+        List<String> flags = new ArrayList<>();
+        flags.add("list");
+        flags.addAll(FlagsManager.getFlags());
 
         List<String> result0 = new ArrayList<>();
         if (args.length == 1) {

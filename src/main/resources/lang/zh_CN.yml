@@ -219,7 +219,8 @@ gui:
 
 flag:
   description:
-    break: '玩家破坏方块'
+    break: '阻止玩家破坏方块'
+    projectile: '阻止玩家发射飞行物'
     build: '玩家放置方块'
     use: '玩家使用功能性方块(如工作台)'
     container: '玩家开启容器'
